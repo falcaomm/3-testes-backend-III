@@ -29,4 +29,39 @@ describe("Testando login", () => {
     })
   })
 
+  test("Error - email não é string", async () => {
+    expect.assertions(1)
+    try {
+      const input = LoginSchema.parse({
+        email: 123456,
+        password: "fulano123"
+      })
+
+      await userBusiness.login(input)
+
+    } catch (error) {
+      if (error instanceof ZodError) {
+        expect(error.issues[0].message).toBe('Expected string, received number')
+      }
+    }
+  })
+
+  test("Error - Email não foi encontrado", async () => {
+    expect.assertions(2)
+    try {
+      const input = LoginSchema.parse({
+        email: "email@email.com",
+        password: "fulano123"
+      })
+
+      await userBusiness.login(input)
+
+    } catch (error) {
+      if (error instanceof NotFoundError) {
+        expect(error.message).toBe("'email' não encontrado");
+        expect(error.statusCode).toBe(404)
+      }
+    }
+  })
+
 })

@@ -12,6 +12,7 @@ import { IdGenerator } from "../services/IdGenerator"
 import { TokenManager } from "../services/TokenManager"
 
 export class UserBusiness {
+  [x: string]: any
   constructor(
     private userDatabase: UserDatabase,
     private idGenerator: IdGenerator,
